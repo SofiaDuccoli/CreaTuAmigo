@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea-tu-Amigo.com</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <audio id="musica-fondo" src="musica.mp3" loop></audio>
+
+    <div id="escena-blog" class="interfaz-contenedor">
+        <div class="caja-boceto header-titulo">
+            <h1>Crea-tu-Amigo.com</h1>
+        </div>
+        
+        <button id="btn-vamos" class="boton-vamos">Vamos!</button>
+
+        <div class="caja-boceto col-izquierda">
+            <h2>Sobre el proyecto:</h2>
+            <p>Cada vez las amistades online son más comunes en los adolescentes de hoy. Por eso proponemos una mezcla donde la virtualidad y la realidad conviven juntos dentro del mundo cibernético. Al apretar el botón Vamos! invitamos a que los alumnos de la cursada personifiquen el avatar como sus amigos y se saquen una foto apretando la X en la esquina superior (ES NECESARIO TENER LA CAMARA PRENDIDA PARA UTILIZAR EL JUEGO INTERACTIVO) </p>
+        </div>
+
+        <div class="caja-boceto col-centro">
+            <img src="ducco profile.jpg" alt="Dueña" class="avatar-pato">
+            <h3>Dueña del blog:</h3>
+             <p>Sofía Duccoli es estudiante en la Licenciatura en Artes Visuales de la Universidad Nacional de las Artes. Nacida en los 2000, la mayor parte de su adolescencia la pasó conectada en su computadora y navegando en las primeras versiones del internet. En base a estos recuerdos nostalgicos, propone una nueva forma de interaccion entre el presente, el pasado, la realidad y la virtualidad. </p>
+        </div>
+
+        <div class="caja-boceto col-derecha">
+            <p>OTAV 1 DIGITALIZACIÓN DE IMÁGENES</p>
+            <p>CÁTEDRA</p>
+            <p>ALVAREZ</p>
+            <p>OLMEDO</p>
+            <p>PROGRAMACIÓN ARTISTICA</p>
+            <p>2026</p>
+        </div>
+
+        <div class="caja-boceto bloque-inferior">
+            <div id="historial-mensajes"></div>
+            <input type="text" id="input-comentario" class="input-comentario" placeholder="dejanos tu comentario!...">
+        </div>
+    </div>
+
+    <div id="escena-juego" class="interfaz-contenedor">
+        <div class="caja-boceto header-titulo">
+            <h1>Crea-tu-Amigo.com - Zona de Juego</h1>
+        </div>
+
+        <button id="btn-volver" class="boton-volver">Volver</button>
+
+        <div class="seccion-juego-centrada">
+            <div class="caja-boceto-juego">
+                <div id="canvas-contenedor"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputComentario = document.getElementById('input-comentario');
+        const historialMensajes = document.getElementById('historial-mensajes');
+        const btnVamos = document.getElementById('btn-vamos');
+        const btnVolver = document.getElementById('btn-volver');
+        const escenaBlog = document.getElementById('escena-blog');
+        const escenaJuego = document.getElementById('escena-juego');
+        const musica = document.getElementById('musica-fondo');
+
+        // Navegación - Ir al Juego
+        btnVamos.addEventListener('click', function() {
+            escenaBlog.style.display = 'none';
+            escenaJuego.style.display = 'grid'; 
+            musica.pause(); 
+        });
+
+        // Navegación - Volver al Blog
+        btnVolver.addEventListener('click', function() {
+            escenaJuego.style.display = 'none';
+            escenaBlog.style.display = 'grid';
+            musica.play().catch(err => console.log("Interacción requerida"));
+        });
+
+        // Autoplay del Audio
+        document.addEventListener('click', function() {
+            if (escenaBlog.style.display !== 'none') {
+                musica.play().catch(err => console.log("Autoplay bloqueado"));
+            }
+        }, { once: true });
+
+        // Persistencia del Chat Local
+        function cargarMensajesGuardados() {
+            const mensajesGuardados = localStorage.getItem('comentarios_una');
+            if (mensajesGuardados) {
+                const listaMensajes = JSON.parse(mensajesGuardados);
+                listaMensajes.forEach(texto => dibujarNuevoMensaje(texto));
+            }
+        }
+
+        function dibujarNuevoMensaje(texto) {
+            const nuevoMensaje = document.createElement('div');
+            nuevoMensaje.classList.add('mensaje-chat');
+            nuevoMensaje.textContent = texto;
+            historialMensajes.appendChild(nuevoMensaje);
+            historialMensajes.scrollTop = historialMensajes.scrollHeight; 
+        }
+
+        function guardarMensajeEnStorage(nuevoTexto) {
+            const mensajesActuales = localStorage.getItem('comentarios_una');
+            let listaMensajes = mensajesActuales ? JSON.parse(mensajesActuales) : [];
+            listaMensajes.push(nuevoTexto);
+            localStorage.setItem('comentarios_una', JSON.stringify(listaMensajes));
+        }
+
+        inputComentario.addEventListener('keypress', function(evento) {
+            if (evento.key === 'Enter' && inputComentario.value.trim() !== "") {
+                const textoMensaje = inputComentario.value;
+                dibujarNuevoMensaje(textoMensaje);
+                guardarMensajeEnStorage(textoMensaje);
+                inputComentario.value = ""; 
+            }
+        });
+
+        cargarMensajesGuardados();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="sketch.js"></script>
+
+</body>
+</html>

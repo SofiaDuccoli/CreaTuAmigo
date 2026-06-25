@@ -1,0 +1,208 @@
+/* Estilos generales de la página */
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Jersey 10', serif;
+    background-image: url("fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* Contenedor principal de la interfaz */
+.interfaz-contenedor {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 15px;
+}
+
+/* Estilo base para los rectángulos tipo "Boceto Comic" */
+.caja-boceto {
+    background-color: #ffffff;
+    border: 3px solid #1a1a1a;
+    padding: 20px;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+/* Título principal */
+.header-titulo {
+    grid-column: span 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+.header-titulo h1 {
+    margin: 0;
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+}
+
+/* Botones Interactivos */
+.boton-vamos, .boton-volver {
+    background-color: #ffffff;
+    border: 5px solid #1a1a1a;
+    font-family: 'Jersey 10', serif;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.boton-vamos {
+    grid-column: span 3;
+    border-radius: 15px 50px 15px 25px / 25px 15px 35px 15px;
+    font-size: 2.5rem;
+}
+
+.boton-volver {
+    grid-column: span 3;
+    border-radius: 50px 15px 25px 15px / 15px 25px 15px 35px;
+    font-size: 2.2rem;
+    text-decoration: none;
+    color: #1a1a1a;
+}
+
+.boton-vamos:hover, .boton-volver:hover {
+    transform: scale(1.03);
+}
+
+/* Distribución de columnas del Blog */
+.col-izquierda {
+    grid-column: span 4;
+    grid-row: span 2;
+}
+.col-izquierda h2 {
+    margin-top: 0;
+    font-size: 2.2rem;
+    border-bottom: 2px dashed #1a1a1a;
+    padding-bottom: 5px;
+}
+.col-izquierda p {
+    font-size: 1.3rem;
+    line-height: 1.4;
+}
+
+.col-centro {
+    grid-column: span 5;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+.avatar-pato {
+    width: 100px;
+    height: auto;
+    border: 2px solid #1a1a1a;
+    border-radius: 10px;
+}
+.col-centro h3 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.col-derecha {
+    grid-column: span 3;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.col-derecha p {
+    margin: 5px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Bloque del Chat */
+.bloque-inferior {
+    grid-column: span 8;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#historial-mensajes {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.mensaje-chat {
+    background: #f1f1f1;
+    border: 2px solid #1a1a1a;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-top: 6px;
+    font-size: 1.2rem;
+    align-self: flex-start;
+    animation: aparecer 0.2s ease-out;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.input-comentario {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #1a1a1a;
+    border-radius: 5px 20px 5px 10px / 10px 5px 12px 5px;
+    font-family: 'Jersey 10', serif;
+    font-size: 1.2rem;
+    background-color: #fafafa;
+    outline: none;
+}
+
+/* Estilos de la Escena de Juego */
+#escena-juego {
+    display: none;
+}
+
+.seccion-juego-centrada {
+    grid-column: span 12;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.caja-boceto-juego {
+    background-color: #ffffff;
+    border: 3px solid #1a1a1a;
+    padding: 20px;
+    border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; 
+    display: inline-block;
+}
+
+#canvas-contenedor {
+    width: 400px;
+    height: 400px;
+    display: block;
+}
+
+/* Control estricto sobre el Canvas generado por p5.js */
+#canvas-contenedor canvas {
+    display: block;
+    border: 2px dashed #1a1a1a;
+    width: 400px !important;
+    height: 400px !important;
+}
